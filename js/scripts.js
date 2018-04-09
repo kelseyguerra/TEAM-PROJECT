@@ -4,7 +4,6 @@ function GameObject (symbol, xcoordinate, ycoordinate) {
   this.ycoordinate = ycoordinate;
 }
 
-
 function redraw(objectArray){
   $("td").text("");
   objectArray.forEach(function(element){
