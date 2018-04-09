@@ -2,6 +2,15 @@ function GameObject (symbol, xcoordinate, ycoordinate) {
   this.symbol = symbol;
   this.xcoordinate = xcoordinate;
   this.ycoordinate = ycoordinate;
+
+  function movePattern (type) {
+    if (type === "random") {
+      moveNpcRandom();
+    } else if (type === "horizontal") {
+      moveNPCHorizontal();
+    }else if (type === "vertical") {
+      moveNPCVertical();
+    }
 }
 
 function coinFlip() {
@@ -14,7 +23,7 @@ function moveNpc(enemy) {
     // Border Checks
     if (enemy.xcoordinate === 0) {
       enemy.xcoordinate += 1;
-    } else if (enemy.xcoordinate === 3) {
+    } else if (enemy.xcoordinate === 5) {
       enemy.xcoordinate -= 1;
     // Left
     } else if (coinFlip() === 0) {
@@ -28,7 +37,7 @@ function moveNpc(enemy) {
     // Border Checks
     if (enemy.ycoordinate === 0) {
       enemy.ycoordinate += 1;
-    } else if (enemy.ycoordinate === 3) {
+    } else if (enemy.ycoordinate === 5) {
       enemy.ycoordinate -= 1;
     // Up
     } else if (coinFlip() === 0) {
@@ -45,6 +54,42 @@ function redraw(objectArray){
   objectArray.forEach(function(element){
     $(".y" + element.ycoordinate + " .x" + element.xcoordinate).text(element.symbol);
   });
+}
+
+function moveNPCHorizontal() {
+  if (enemy.direction === "right") {
+    if (enemy.xcoordinate < 5) {
+      enemy.xcoordinate += 1;
+    } else {
+      enemy.xcoordinate -= 1;
+      enemy.direction = "left";
+    }
+  } else {
+    if (enemy.xcoordinate > 0) {
+      enemy.xcoordinate -= 1;
+    } else {
+      enemy.xcoordinate += 1;
+      enemy.direction = "right";
+    }
+  }
+}
+
+function moveNPCVertical() {
+  if (enemy.direction === "down") {
+    if (enemy.ycoordinate < 5) {
+      enemy.ycoordinate += 1;
+    } else {
+      enemy.ycoordinate -= 1;
+      enemy.direction = "up";
+    }
+  } else {
+    if (enemy.ycoordinate > 0) {
+      enemy.ycoordinate -= 1;
+    } else {
+      enemy.ycoordinate += 1;
+      enemy.direction = "down";
+    }
+  }
 }
 
 function condition(player, toilet) {
