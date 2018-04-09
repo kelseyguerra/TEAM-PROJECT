@@ -8,3 +8,11 @@ td {
   width: 100px;
   text-align: center;
 }
+
+.unclickable {
+  pointer-events: none;
+}
+
+.refresh {
+  display: none;
+}
