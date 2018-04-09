@@ -8,34 +8,34 @@ function coinFlip() {
   return Math.floor(Math.random() * 2);
 }
 
-function moveNpc() {
+function moveNpc(enemy) {
   // Horizontal Move
   if (coinFlip() === 0) {
     // Border Checks
-    if (enemy.xCoord === 0) {
-      enemy.xCoord += 1;
-    } else if (enemy.xCoord === 3) {
-      enemy.xCoord -= 1;
+    if (enemy.xcoordinate === 0) {
+      enemy.xcoordinate += 1;
+    } else if (enemy.xcoordinate === 3) {
+      enemy.xcoordinate -= 1;
     // Left
     } else if (coinFlip() === 0) {
-      enemy.xCoord -= 1;
+      enemy.xcoordinate -= 1;
     // Right
     } else {
-      enemy.xCoord += 1;
+      enemy.xcoordinate += 1;
     }
   // Vertical Move
   } else {
     // Border Checks
-    if (enemy.yCoord === 0) {
-      enemy.yCoord += 1;
-    } else if (enemy.yCoord === 3) {
-      enemy.yCoord -= 1;
+    if (enemy.ycoordinate === 0) {
+      enemy.ycoordinate += 1;
+    } else if (enemy.ycoordinate === 3) {
+      enemy.ycoordinate -= 1;
     // Up
     } else if (coinFlip() === 0) {
-      enemy.yCoord += 1;
+      enemy.ycoordinate += 1;
     // Down
     } else {
-      enemy.yCoord -= 1;
+      enemy.ycoordinate -= 1;
     }
   }
 }
@@ -55,16 +55,19 @@ function condition(player, toilet) {
 
 $(document).ready(function(){
   var objectArray = [];
+  var enemy = new GameObject("X", 0, 3);
   var player = new GameObject("O", 0, 0);
   var toilet = new GameObject("T", 3, 3);
   objectArray.push(toilet);
   objectArray.push(player);
+  objectArray.push(enemy);
   redraw(objectArray);
   $("button#move-left").click(function(event) {
     event.preventDefault();
     if (player.xcoordinate > 0) {
       player.xcoordinate = player.xcoordinate - 1;
     }
+    moveNpc(enemy);
     redraw(objectArray);
     condition(player, toilet);
   });
@@ -73,6 +76,7 @@ $(document).ready(function(){
     if (player.xcoordinate < 3) {
       player.xcoordinate = player.xcoordinate + 1;
     }
+    moveNpc(enemy);
     redraw(objectArray);
     condition(player, toilet);
   });
@@ -81,6 +85,7 @@ $(document).ready(function(){
     if (player.ycoordinate > 0) {
       player.ycoordinate = player.ycoordinate - 1;
     }
+    moveNpc(enemy);
     redraw(objectArray);
     condition(player, toilet);
   });
@@ -89,6 +94,7 @@ $(document).ready(function(){
     if (player.ycoordinate < 3) {
       player.ycoordinate = player.ycoordinate + 1;
     }
+    moveNpc(enemy);
     redraw(objectArray);
     condition(player, toilet);
   });
