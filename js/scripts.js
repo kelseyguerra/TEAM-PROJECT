@@ -9,20 +9,36 @@ function coinFlip() {
 }
 
 function moveNpc() {
-  var xCurrent = enemy.xCoord;
-  var yCurrent = enemy.yCoord;
+  // Horizontal Move
   if (coinFlip() === 0) {
-    enemy.xCoord -= 1;
-    if (enemy.xCoord < 0) {
-      enemy.xCoord += 2;
+    // Border Checks
+    if (enemy.xCoord === 0) {
+      enemy.xCoord += 1;
+    } else if (enemy.xCoord === 3) {
+      enemy.xCoord -= 1;
+    // Left
+    } else if (coinFlip() === 0) {
+      enemy.xCoord -= 1;
+    // Right
+    } else {
+      enemy.xCoord += 1;
     }
+  // Vertical Move
   } else {
-    enemy.xCoord += 1;
-    if (enemy.xCoord > 3) {
-      enemy.xCoord -= 2;
+    // Border Checks
+    if (enemy.yCoord === 0) {
+      enemy.yCoord += 1;
+    } else if (enemy.yCoord === 3) {
+      enemy.yCoord -= 1;
+    // Up
+    } else if (coinFlip() === 0) {
+      enemy.yCoord += 1;
+    // Down
+    } else {
+      enemy.yCoord -= 1;
     }
   }
-  $(".y" + yCurrent + " .x" + xCurrent).text("");
+  $("td").text("");
   $(".y" + enemy.yCoord + " .x" + enemy.xCoord).text("X");
 }
 
