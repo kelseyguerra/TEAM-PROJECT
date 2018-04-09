@@ -41,7 +41,7 @@ function moveNpc(enemy) {
 }
 
 
-function condition(player, toilet, enemy) {
+function condition(player, toilet, enemy, turnTimer) {
   if (player.xcoordinate === toilet.xcoordinate && player.ycoordinate === toilet.ycoordinate) {
     alert("You win, now you get to shit.");
     $(".navigation").hide();
@@ -50,7 +50,13 @@ function condition(player, toilet, enemy) {
     alert("You lose!");
     $(".navigation").hide();
     $(".refresh").show();
+  } else if(turnTimer === 0){
+    alert("You ran out of time and had an accident.");
+    $(".navigation").hide();
+    $(".refresh").show();
   }
+  turnTimer --;
+  return turnTimer;
 }
 
 // UI Logic
@@ -64,6 +70,7 @@ function redraw(objectArray){
 
 
 $(document).ready(function(){
+  var turnTimer = 20;
   var objectArray = [];
   var enemy = new GameObject("X", 0, 5);
   var player = new GameObject("O", 0, 0);
@@ -82,7 +89,7 @@ $(document).ready(function(){
     }
     moveNpc(enemy);
     redraw(objectArray);
-    condition(player, toilet, enemy);
+    turnTimer = condition(player, toilet, enemy, turnTimer);
   });
   $("button#move-right").click(function(event) {
     event.preventDefault();
@@ -91,7 +98,7 @@ $(document).ready(function(){
     }
     moveNpc(enemy);
     redraw(objectArray);
-    condition(player, toilet, enemy);
+    turnTimer = condition(player, toilet, enemy, turnTimer);
   });
   $("button#move-up").click(function(event) {
     event.preventDefault();
@@ -100,7 +107,7 @@ $(document).ready(function(){
     }
     moveNpc(enemy);
     redraw(objectArray);
-    condition(player, toilet, enemy);
+    turnTimer = condition(player, toilet, enemy, turnTimer);
   });
   $("button#move-down").click(function(event) {
     event.preventDefault();
@@ -109,6 +116,6 @@ $(document).ready(function(){
     }
     moveNpc(enemy);
     redraw(objectArray);
-    condition(player, toilet, enemy);
+    turnTimer = condition(player, toilet, enemy, turnTimer);
   });
 });
