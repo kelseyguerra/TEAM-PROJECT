@@ -1,105 +1,146 @@
-var enemy = {
-  type: "NPC",
-  xCoord: 3,
-  yCoord: 3,
-  direction: "up"
-}
+function GameObject (symbol, xcoordinate, ycoordinate) {
+  this.symbol = symbol;
+  this.xcoordinate = xcoordinate;
+  this.ycoordinate = ycoordinate;
 
-function movePattern (type) {
-  if (type === "random") {
-    moveNpcRandom();
-  } else if (type === "horizontal") {
-    moveNPCHorizontal();
-  }else if (type === "vertical") {
-    moveNPCVertical();
-  }
+  function movePattern (type) {
+    if (type === "random") {
+      moveNpcRandom();
+    } else if (type === "horizontal") {
+      moveNPCHorizontal();
+    }else if (type === "vertical") {
+      moveNPCVertical();
+    }
 }
 
 function coinFlip() {
   return Math.floor(Math.random() * 2);
 }
 
-function moveNpcRandom() {
+function moveNpc(enemy) {
   // Horizontal Move
   if (coinFlip() === 0) {
     // Border Checks
-    if (enemy.xCoord === 0) {
-      enemy.xCoord += 1;
-    } else if (enemy.xCoord === 5) {
-      enemy.xCoord -= 1;
+    if (enemy.xcoordinate === 0) {
+      enemy.xcoordinate += 1;
+    } else if (enemy.xcoordinate === 5) {
+      enemy.xcoordinate -= 1;
     // Left
     } else if (coinFlip() === 0) {
-      enemy.xCoord -= 1;
+      enemy.xcoordinate -= 1;
     // Right
     } else {
-      enemy.xCoord += 1;
+      enemy.xcoordinate += 1;
     }
   // Vertical Move
   } else {
     // Border Checks
-    if (enemy.yCoord === 0) {
-      enemy.yCoord += 1;
-    } else if (enemy.yCoord === 5) {
-      enemy.yCoord -= 1;
+    if (enemy.ycoordinate === 0) {
+      enemy.ycoordinate += 1;
+    } else if (enemy.ycoordinate === 5) {
+      enemy.ycoordinate -= 1;
     // Up
     } else if (coinFlip() === 0) {
-      enemy.yCoord += 1;
+      enemy.ycoordinate += 1;
     // Down
     } else {
-      enemy.yCoord -= 1;
+      enemy.ycoordinate -= 1;
     }
   }
+}
+
+function redraw(objectArray){
   $("td").text("");
-  $(".y" + enemy.yCoord + " .x" + enemy.xCoord).text("X");
+  objectArray.forEach(function(element){
+    $(".y" + element.ycoordinate + " .x" + element.xcoordinate).text(element.symbol);
+  });
 }
 
 function moveNPCHorizontal() {
   if (enemy.direction === "right") {
-    if (enemy.xCoord < 5) {
-      enemy.xCoord += 1;
+    if (enemy.xcoordinate < 5) {
+      enemy.xcoordinate += 1;
     } else {
-      enemy.xCoord -= 1;
+      enemy.xcoordinate -= 1;
       enemy.direction = "left";
     }
   } else {
-    if (enemy.xCoord > 0) {
-      enemy.xCoord -= 1;
+    if (enemy.xcoordinate > 0) {
+      enemy.xcoordinate -= 1;
     } else {
-      enemy.xCoord += 1;
+      enemy.xcoordinate += 1;
       enemy.direction = "right";
     }
   }
-  $("td").text("");
-  $(".y" + enemy.yCoord + " .x" + enemy.xCoord).text("X");
 }
 
 function moveNPCVertical() {
   if (enemy.direction === "down") {
-    if (enemy.yCoord < 5) {
-      enemy.yCoord += 1;
+    if (enemy.ycoordinate < 5) {
+      enemy.ycoordinate += 1;
     } else {
-      enemy.yCoord -= 1;
+      enemy.ycoordinate -= 1;
       enemy.direction = "up";
     }
   } else {
-    if (enemy.yCoord > 0) {
-      enemy.yCoord -= 1;
+    if (enemy.ycoordinate > 0) {
+      enemy.ycoordinate -= 1;
     } else {
-      enemy.yCoord += 1;
+      enemy.ycoordinate += 1;
       enemy.direction = "down";
     }
   }
-  $("td").text("");
-  $(".y" + enemy.yCoord + " .x" + enemy.xCoord).text("X");
 }
 
-$(document).ready(function() {
+function condition(player, toilet) {
+  if (player.xcoordinate === toilet.xcoordinate && player.ycoordinate === toilet.ycoordinate) {
+    alert("You win, now you get to shit.")
+  }
+}
 
-  // SET NPC POSITION
-  $(".y" + enemy.yCoord + " .x" + enemy.xCoord).text("X");
-
-  // TRIGGER NPC MOVEMENT
-  $("#test-npc").click(function() {
-    movePattern("vertical");
+$(document).ready(function(){
+  var objectArray = [];
+  var enemy = new GameObject("X", 0, 3);
+  var player = new GameObject("O", 0, 0);
+  var toilet = new GameObject("T", 3, 3);
+  objectArray.push(toilet);
+  objectArray.push(player);
+  objectArray.push(enemy);
+  redraw(objectArray);
+  $("button#move-left").click(function(event) {
+    event.preventDefault();
+    if (player.xcoordinate > 0) {
+      player.xcoordinate = player.xcoordinate - 1;
+    }
+    moveNpc(enemy);
+    redraw(objectArray);
+    condition(player, toilet);
+  });
+  $("button#move-right").click(function(event) {
+    event.preventDefault();
+    if (player.xcoordinate < 3) {
+      player.xcoordinate = player.xcoordinate + 1;
+    }
+    moveNpc(enemy);
+    redraw(objectArray);
+    condition(player, toilet);
+  });
+  $("button#move-up").click(function(event) {
+    event.preventDefault();
+    if (player.ycoordinate > 0) {
+      player.ycoordinate = player.ycoordinate - 1;
+    }
+    moveNpc(enemy);
+    redraw(objectArray);
+    condition(player, toilet);
+  });
+  $("button#move-down").click(function(event) {
+    event.preventDefault();
+    if (player.ycoordinate < 3) {
+      player.ycoordinate = player.ycoordinate + 1;
+    }
+    moveNpc(enemy);
+    redraw(objectArray);
+    condition(player, toilet);
   });
 });
