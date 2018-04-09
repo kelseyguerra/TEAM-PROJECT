@@ -41,25 +41,26 @@ function moveNpc(enemy) {
 }
 
 
+
+// UI Logic
 function condition(player, toilet, enemy, turnTimer) {
+  turnTimer --;
+  $("#turnOutput").text(turnTimer);
   if (player.xcoordinate === toilet.xcoordinate && player.ycoordinate === toilet.ycoordinate) {
-    alert("You win, now you get to shit.");
+    $("#output").text("You win, now you get to poop.");
     $(".navigation").hide();
     $(".refresh").show();
-  } else if(player.xcoordinate === enemy.xcoordinate && player.ycoordinate === enemy.ycoordinate) {
-    alert("You lose!");
+  } else if (player.xcoordinate === enemy.xcoordinate && player.ycoordinate === enemy.ycoordinate) {
+    $("#output").text("You lose!");
     $(".navigation").hide();
     $(".refresh").show();
-  } else if(turnTimer === 0){
-    alert("You ran out of time and had an accident.");
+  } else if (turnTimer === 0){
+    $("#output").text("You ran out of time and had an accident.");
     $(".navigation").hide();
     $(".refresh").show();
   }
-  turnTimer --;
   return turnTimer;
 }
-
-// UI Logic
 
 function redraw(objectArray){
   $("td").text("");
@@ -68,20 +69,18 @@ function redraw(objectArray){
   });
 }
 
-
 $(document).ready(function(){
   var turnTimer = 20;
   var objectArray = [];
-  var enemy = new GameObject("X", 0, 5);
+  var enemy = new GameObject("X", (Math.ceil(Math.random() * 4)), (Math.ceil(Math.random() * 4)));
   var player = new GameObject("O", 0, 0);
   var toilet = new GameObject("T", 5, 5);
   objectArray.push(toilet);
   objectArray.push(player);
   objectArray.push(enemy);
 
-
-
   redraw(objectArray);
+  $("#turnOutput").text(turnTimer);
   $("button#move-left").click(function(event) {
     event.preventDefault();
     if (player.xcoordinate > 0) {
