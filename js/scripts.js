@@ -25,7 +25,7 @@ function moveNpcRandom() {
     // Border Checks
     if (enemy.xCoord === 0) {
       enemy.xCoord += 1;
-    } else if (enemy.xCoord === 3) {
+    } else if (enemy.xCoord === 5) {
       enemy.xCoord -= 1;
     // Left
     } else if (coinFlip() === 0) {
@@ -39,7 +39,7 @@ function moveNpcRandom() {
     // Border Checks
     if (enemy.yCoord === 0) {
       enemy.yCoord += 1;
-    } else if (enemy.yCoord === 3) {
+    } else if (enemy.yCoord === 5) {
       enemy.yCoord -= 1;
     // Up
     } else if (coinFlip() === 0) {
@@ -55,7 +55,7 @@ function moveNpcRandom() {
 
 function moveNPCHorizontal() {
   if (enemy.direction === "right") {
-    if (enemy.xCoord < 3) {
+    if (enemy.xCoord < 5) {
       enemy.xCoord += 1;
     } else {
       enemy.xCoord -= 1;
@@ -75,7 +75,7 @@ function moveNPCHorizontal() {
 
 function moveNPCVertical() {
   if (enemy.direction === "down") {
-    if (enemy.yCoord < 3) {
+    if (enemy.yCoord < 5) {
       enemy.yCoord += 1;
     } else {
       enemy.yCoord -= 1;
