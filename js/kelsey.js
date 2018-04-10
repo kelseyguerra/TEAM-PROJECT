@@ -221,13 +221,13 @@ $(document).ready(function(){
   var enemies= [];
   var enemy1 = new GameObject("kelseyimg/glob.gif", (Math.ceil(Math.random() * 7)+1), (Math.ceil(Math.random() * 7)+1));
   var enemy2 = new GameObject("kelseyimg/pus.gif", (Math.ceil(Math.random() * 7)+1), (Math.ceil(Math.random() * 7)+1));
-  var enemy3 = new GameObject("kelseyimg/pus.gif", (Math.ceil(Math.random() * 3)+1), (Math.ceil(Math.random() * 3)+1));
-  var enemy4 = new GameObject("kelseyimg/pus.gif", (Math.ceil(Math.random() * 8)+1), (Math.ceil(Math.random() * 8)+1));
+  var enemy3 = new GameObject("kelseyimg/pus.gif", (Math.ceil(Math.random() * 7)+1), (Math.ceil(Math.random() * 7)+1));
+  var enemy4 = new GameObject("kelseyimg/pus.gif", (Math.ceil(Math.random() * 7)+1), (Math.ceil(Math.random() * 7)+1));
   var player = new GameObject("kelseyimg/blob.gif", 0, 0);
   var toilet = new GameObject("kelseyimg/octoprincess.gif", 9, 9);
   var enemyType1 = "vertical";
   var enemyType2 = "hunter";
-  var enemyType3 = "hunter";
+  var enemyType3 = "vertical";
   var enemyType4 = "horizontal";
   objectArray.push(toilet);
   objectArray.push(player);
