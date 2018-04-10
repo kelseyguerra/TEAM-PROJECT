@@ -21,8 +21,24 @@ td {
   margin: 6px 10px;
 }
 
-.wall {
+.barrier {
   background-color: black;
+}
+
+.wall-left {
+  border-left: 5px solid black;
+}
+
+.wall-right {
+  border-right: 5px solid black;
+}
+
+.wall-up {
+  border-top: 5px solid black;
+}
+
+.wall-down {
+  border-bottom: 5px solid black;
 }
 
 .meter-bar {

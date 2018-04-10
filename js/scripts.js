@@ -115,27 +115,57 @@ function moveNPCVertical(enemy) {
   }
 }
 
-function notAWall(object, direction) {
+// BLOCK BARRIER CHECK
+function notABarrier(object, direction) {
   if (direction === "left") {
-    if ($(".y" + object.ycoordinate + " .x" + (object.xcoordinate - 1)).attr('class').includes("wall")) {
+    if ($(".y" + object.ycoordinate + " .x" + (object.xcoordinate - 1)).attr('class').includes("barrier")) {
       return false;
     }
     return true;
   } else if (direction === "right") {
-    if ($(".y" + object.ycoordinate + " .x" + (object.xcoordinate + 1)).attr('class').includes("wall")) {
+    if ($(".y" + object.ycoordinate + " .x" + (object.xcoordinate + 1)).attr('class').includes("barrier")) {
       return false;
     }
     return true;
   } else if (direction === "up") {
-    if ($(".y" + (object.ycoordinate - 1) + " .x" + object.xcoordinate).attr('class').includes("wall")) {
+    if ($(".y" + (object.ycoordinate - 1) + " .x" + object.xcoordinate).attr('class').includes("barrier")) {
       return false;
     }
     return true;
   } else if (direction === "down") {
-    if ($(".y" + (object.ycoordinate + 1) + " .x" + object.xcoordinate).attr('class').includes("wall")) {
+    if ($(".y" + (object.ycoordinate + 1) + " .x" + object.xcoordinate).attr('class').includes("barrier")) {
       return false;
     }
     return true;
+  }
+}
+
+// BORDER WALL CHECK
+function notAWall(object, direction) {
+  if (direction === "left") {
+    if ($(".y" + object.ycoordinate + " .x" + object.xcoordinate).attr('class').includes("wall-left")) {
+      return false;
+    } else {
+      return true;
+    }
+  } else if (direction === "right") {
+    if ($(".y" + object.ycoordinate + " .x" + object.xcoordinate).attr('class').includes("wall-right")) {
+      return false;
+    } else {
+      return true;
+    }
+  } else if (direction === "up") {
+    if ($(".y" + object.ycoordinate + " .x" + object.xcoordinate).attr('class').includes("wall-up")) {
+      return false;
+    } else {
+      return true;
+    }
+  } else if (direction === "down") {
+    if ($(".y" + object.ycoordinate + " .x" + object.xcoordinate).attr('class').includes("wall-down")) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
 
@@ -197,7 +227,7 @@ $(document).ready(function(){
   redraw(objectArray);
   $("button#move-left").click(function(event) {
     event.preventDefault();
-    if (player.xcoordinate > 0 && notAWall(player, "left")) {
+    if (player.xcoordinate > 0 && notAWall(player, "left") && notABarrier(player, "left")) {
       player.xcoordinate = player.xcoordinate - 1;
     }
     redraw(objectArray);
@@ -211,7 +241,7 @@ $(document).ready(function(){
   });
   $("button#move-right").click(function(event) {
     event.preventDefault();
-    if (player.xcoordinate < 5 && notAWall(player, "right")) {
+    if (player.xcoordinate < 5 && notAWall(player, "right") && notABarrier(player, "right")) {
       player.xcoordinate = player.xcoordinate + 1;
     }
     redraw(objectArray);
@@ -225,7 +255,7 @@ $(document).ready(function(){
   });
   $("button#move-up").click(function(event) {
     event.preventDefault();
-    if (player.ycoordinate > 0 && notAWall(player, "up")) {
+    if (player.ycoordinate > 0 && notAWall(player, "up") && notABarrier(player, "up")) {
       player.ycoordinate = player.ycoordinate - 1;
     }
     redraw(objectArray);
@@ -239,7 +269,7 @@ $(document).ready(function(){
   });
   $("button#move-down").click(function(event) {
     event.preventDefault();
-    if (player.ycoordinate < 5 && notAWall(player, "down")) {
+    if (player.ycoordinate < 5 && notAWall(player, "down") && notABarrier(player, "down")) {
       player.ycoordinate = player.ycoordinate + 1;
     }
     redraw(objectArray);
