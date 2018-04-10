@@ -181,7 +181,7 @@ function turnCountDown(turnTimer) {
 function condition(player, toilet, enemies, turnTimer) {
   var returnValue = "go";
   if (player.xCoordinate === toilet.xCoordinate && player.yCoordinate === toilet.yCoordinate) {
-    $("#output").text("Yay! You saved Sir OctoPrince!");
+    $("#output").text("Yay! You saved Prince Octavius!");
     $(".navigation").hide();
     $(".refresh").show();
     returnValue = "stop";
@@ -193,7 +193,7 @@ function condition(player, toilet, enemies, turnTimer) {
   }
   enemies.forEach(function(enemy){
     if (player.xCoordinate === enemy.xCoordinate && player.yCoordinate === enemy.yCoordinate) {
-      $("#output").text("Oh no! Princess Blobby failed. Sir OctoPrince is lost forever.");
+      $("#output").text("Oh no! Princess Blobby failed. Prince Octavius is lost forever.");
       $(".navigation").hide();
       $(".refresh").show();
       returnValue = "stop";
@@ -222,13 +222,13 @@ $(document).ready(function(){
   var enemy1 = new GameObject("kelseyimg/glob.gif", (Math.ceil(Math.random() * 7)+1), (Math.ceil(Math.random() * 7)+1));
   var enemy2 = new GameObject("kelseyimg/pus.gif", (Math.ceil(Math.random() * 7)+1), (Math.ceil(Math.random() * 7)+1));
   var enemy3 = new GameObject("kelseyimg/pus.gif", (Math.ceil(Math.random() * 3)+1), (Math.ceil(Math.random() * 3)+1));
-  var enemy4 = new GameObject("kelseyimg/pus.gif", (Math.ceil(Math.random() * 7)+1), (Math.ceil(Math.random() * 7)+1));
+  var enemy4 = new GameObject("kelseyimg/pus.gif", (Math.ceil(Math.random() * 8)+1), (Math.ceil(Math.random() * 8)+1));
   var player = new GameObject("kelseyimg/blob.gif", 0, 0);
   var toilet = new GameObject("kelseyimg/octoprincess.gif", 9, 9);
   var enemyType1 = "vertical";
   var enemyType2 = "hunter";
   var enemyType3 = "hunter";
-  var enemyType4 = "hunter";
+  var enemyType4 = "horizontal";
   objectArray.push(toilet);
   objectArray.push(player);
   objectArray.push(enemy1);
