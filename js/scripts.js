@@ -99,19 +99,19 @@ function condition(player, toilet, enemy, turnTimer) {
     $("#output").text("You win, now you get to poop.");
     $(".navigation").hide();
     $(".refresh").show();
-    return "y";
+    return "stop";
   } else if (player.xcoordinate === enemy.xcoordinate && player.ycoordinate === enemy.ycoordinate) {
     $("#output").text("You lose!");
     $(".navigation").hide();
     $(".refresh").show();
-    return "y";
+    return "stop";
   } else if (turnTimer === 0){
     $("#output").text("You ran out of time and had an accident.");
     $(".navigation").hide();
     $(".refresh").show();
-    return "y";
+    return "stop";
   }
-  return "x";
+  return "go";
 }
 
 function redraw(objectArray){
@@ -140,8 +140,8 @@ $(document).ready(function(){
       player.xcoordinate = player.xcoordinate - 1;
     }
     redraw(objectArray);
-    var a = condition(player, toilet, enemy, turnTimer);
-    if (a === "x") {
+    var firstCheck = condition(player, toilet, enemy, turnTimer);
+    if (firstCheck === "go") {
       movePattern(enemy, enemyType);
       redraw(objectArray);
     }
@@ -154,8 +154,8 @@ $(document).ready(function(){
       player.xcoordinate = player.xcoordinate + 1;
     }
     redraw(objectArray);
-    var a = condition(player, toilet, enemy, turnTimer);
-    if (a === "x") {
+    var firstCheck = condition(player, toilet, enemy, turnTimer);
+    if (firstCheck === "go") {
       movePattern(enemy, enemyType);
       redraw(objectArray);
     }
@@ -168,8 +168,8 @@ $(document).ready(function(){
       player.ycoordinate = player.ycoordinate - 1;
     }
     redraw(objectArray);
-    var a = condition(player, toilet, enemy, turnTimer);
-    if (a === "x") {
+    var firstCheck = condition(player, toilet, enemy, turnTimer);
+    if (firstCheck === "go") {
       movePattern(enemy, enemyType);
       redraw(objectArray);
     }
@@ -182,8 +182,8 @@ $(document).ready(function(){
       player.ycoordinate = player.ycoordinate + 1;
     }
     redraw(objectArray);
-    var a = condition(player, toilet, enemy, turnTimer);
-    if (a === "x") {
+    var firstCheck = condition(player, toilet, enemy, turnTimer);
+    if (firstCheck === "go") {
       movePattern(enemy, enemyType);
       redraw(objectArray);
     }
