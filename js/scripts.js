@@ -87,24 +87,31 @@ function moveNPCVertical(enemy) {
   }
 }
 
-// UI Logic
-function condition(player, toilet, enemy, turnTimer) {
+function turnCountDown(turnTimer) {
   turnTimer --;
   $("#turnOutput").text(turnTimer);
+  return turnTimer;
+}
+
+// UI Logic
+function condition(player, toilet, enemy, turnTimer) {
   if (player.xcoordinate === toilet.xcoordinate && player.ycoordinate === toilet.ycoordinate) {
     $("#output").text("You win, now you get to poop.");
     $(".navigation").hide();
     $(".refresh").show();
+    return "y";
   } else if (player.xcoordinate === enemy.xcoordinate && player.ycoordinate === enemy.ycoordinate) {
     $("#output").text("You lose!");
     $(".navigation").hide();
     $(".refresh").show();
+    return "y";
   } else if (turnTimer === 0){
     $("#output").text("You ran out of time and had an accident.");
     $(".navigation").hide();
     $(".refresh").show();
+    return "y";
   }
-  return turnTimer;
+  return "x";
 }
 
 function redraw(objectArray){
@@ -132,36 +139,56 @@ $(document).ready(function(){
     if (player.xcoordinate > 0) {
       player.xcoordinate = player.xcoordinate - 1;
     }
-    movePattern(enemy, enemyType);
     redraw(objectArray);
-    turnTimer = condition(player, toilet, enemy, turnTimer);
+    var a = condition(player, toilet, enemy, turnTimer);
+    if (a === "x") {
+      movePattern(enemy, enemyType);
+      redraw(objectArray);
+    }
+    turnTimer = turnCountDown(turnTimer);
+    condition(player, toilet, enemy, turnTimer);
   });
   $("button#move-right").click(function(event) {
     event.preventDefault();
     if (player.xcoordinate < 5) {
       player.xcoordinate = player.xcoordinate + 1;
     }
-    movePattern(enemy, enemyType);
     redraw(objectArray);
-    turnTimer = condition(player, toilet, enemy, turnTimer);
+    var a = condition(player, toilet, enemy, turnTimer);
+    if (a === "x") {
+      movePattern(enemy, enemyType);
+      redraw(objectArray);
+    }
+    turnTimer = turnCountDown(turnTimer);
+    condition(player, toilet, enemy, turnTimer);
   });
   $("button#move-up").click(function(event) {
     event.preventDefault();
     if (player.ycoordinate > 0) {
       player.ycoordinate = player.ycoordinate - 1;
     }
-    movePattern(enemy, enemyType);
     redraw(objectArray);
-    turnTimer = condition(player, toilet, enemy, turnTimer);
+    var a = condition(player, toilet, enemy, turnTimer);
+    if (a === "x") {
+      movePattern(enemy, enemyType);
+      redraw(objectArray);
+    }
+    turnTimer = turnCountDown(turnTimer);
+    condition(player, toilet, enemy, turnTimer);
   });
   $("button#move-down").click(function(event) {
     event.preventDefault();
     if (player.ycoordinate < 5) {
       player.ycoordinate = player.ycoordinate + 1;
     }
-    movePattern(enemy, enemyType);
     redraw(objectArray);
-    turnTimer = condition(player, toilet, enemy, turnTimer);
+    var a = condition(player, toilet, enemy, turnTimer);
+    if (a === "x") {
+      movePattern(enemy, enemyType);
+      redraw(objectArray);
+    }
+    turnTimer = turnCountDown(turnTimer);
+    condition(player, toilet, enemy, turnTimer);
   });
 
   $("#restart").click(function() {

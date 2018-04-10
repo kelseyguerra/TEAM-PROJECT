@@ -7,7 +7,8 @@ table {
 }
 
 td {
-  background-image: url(../img/tile1.jpg);
+  /*background-image: url(../img/tile1.jpg);*/
+  border: solid 1px black;
   height: 100px;
   width: 100px;
   text-align: center;
