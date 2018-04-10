@@ -10,9 +10,7 @@ function coinFlip() {
 }
 
 function movePattern (enemy, type, hunted, counter) {
-  if (type === "random") {
-    moveNpcRandom(enemy);
-  } else if (type === "horizontal") {
+  if (type === "horizontal") {
     moveNPCHorizontal(enemy);
   }else if (type === "vertical") {
     moveNPCVertical(enemy);
@@ -28,94 +26,60 @@ function moveNpcHunter(enemy, hunted){
   var yDistance = hunted.ycoordinate - enemy.ycoordinate;
   if (Math.abs(xDistance) > Math.abs(yDistance)){
     if (xDistance > 0) {
-      if (notABarrier(enemy, "right")){
+      if (notABarrier(enemy, "right") && notAWall(enemy, "right")){
         enemy.xcoordinate += 1;
-      } else if (yDistance >= 0 && notABarrier(enemy, "down")) {
+      } else if (yDistance >= 0 && notABarrier(enemy, "down") && notAWall(enemy, "down")) {
         enemy.ycoordinate += 1;
-      } else if (yDistance >= 0 && notABarrier(enemy, "up")) {
+      } else if (yDistance >= 0 && notABarrier(enemy, "up") && notAWall(enemy, "up")) {
         enemy.ycoordinate -= 1;
       }
     } else if (xDistance < 0) {
-      if (notABarrier(enemy, "left")) {
+      if (notABarrier(enemy, "left") && notAWall(enemy, "left")) {
         enemy.xcoordinate -= 1;
-      } else if (yDistance >= 0 && notABarrier(enemy, "down")) {
+      } else if (yDistance >= 0 && notABarrier(enemy, "down") && notAWall(enemy, "down")) {
         enemy.ycoordinate += 1;
-      } else if (yDistance >= 0 && notABarrier(enemy, "up")) {
+      } else if (yDistance >= 0 && notABarrier(enemy, "up") && notAWall(enemy, "up")) {
         enemy.ycoordinate -= 1;
       }
     }
   } else if (Math.abs(yDistance) > Math.abs(xDistance)) {
-    console.log("Got Here");
     if (yDistance > 0) {
-      if (notABarrier(enemy, "down")) {
+      if (notABarrier(enemy, "down") && notAWall(enemy, "down")) {
         enemy.ycoordinate += 1;
-      } else if (xDistance >= 0 && notABarrier(enemy, "right")) {
+      } else if (xDistance >= 0 && notABarrier(enemy, "right") && notAWall(enemy, "right")) {
         enemy.xcoordinate += 1;
-      } else if (xDistance <= 0 && notABarrier(enemy, "left")) {
+      } else if (xDistance <= 0 && notABarrier(enemy, "left") && notAWall(enemy, "left")) {
         enemy.xcoordinate -= 1;
       }
     } else if (yDistance < 0) {
-      if (notABarrier(enemy, "up")) {
+      if (notABarrier(enemy, "up") && notAWall(enemy, "up")) {
         enemy.ycoordinate -= 1;
-      } else if (xDistance >= 0 && notABarrier(enemy, "right")) {
+      } else if (xDistance >= 0 && notABarrier(enemy, "right") && notAWall(enemy, "right")) {
         enemy.xcoordinate += 1;
-      } else if (xDistance <= 0 && notABarrier(enemy, "left")) {
+      } else if (xDistance <= 0 && notABarrier(enemy, "left") && notAWall(enemy, "left")) {
         enemy.xcoordinate -= 1;
       }
     }
   } else {
     if (xDistance > 0) {
-      if (notABarrier(enemy, "right")){
+      if (notABarrier(enemy, "right") && notAWall(enemy, "right")){
         enemy.xcoordinate += 1;
-      } else if (yDistance >= 0 && notABarrier(enemy, "down")) {
+      } else if (yDistance >= 0 && notABarrier(enemy, "down") && notAWall(enemy, "down")) {
         enemy.ycoordinate += 1;
-      } else if (Math.abs(yDistance) >= 0 && notABarrier(enemy, "up")) {
+      } else if (Math.abs(yDistance) >= 0 && notABarrier(enemy, "up") && notAWall(enemy, "up")) {
         enemy.ycoordinate -= 1;
       }
     } else if (xDistance < 0) {
-      if (notABarrier(enemy, "left")) {
+      if (notABarrier(enemy, "left") && notAWall(enemy, "left")) {
         enemy.xcoordinate -= 1;
-      } else if (yDistance >= 0 && notABarrier(enemy, "down")) {
+      } else if (yDistance >= 0 && notABarrier(enemy, "down") && notAWall(enemy, "down")) {
         enemy.ycoordinate += 1;
-      } else if (Math.abs(yDistance) >= 0 && notABarrier(enemy, "up")) {
+      } else if (Math.abs(yDistance) >= 0 && notABarrier(enemy, "up") && notAWall(enemy, "up")) {
         enemy.ycoordinate -= 1;
       }
     }
   }
 }
-
-// PHASE OUT RANDOM MOVEMENT ???
-// function moveNpcRandom(enemy) {
-//   // Horizontal Move
-//   if (coinFlip() === 0) {
-//     // Border Checks
-//     if (enemy.xcoordinate === 0) {
-//       enemy.xcoordinate += 1;
-//     } else if (enemy.xcoordinate === 5) {
-//       enemy.xcoordinate -= 1;
-//     // Left
-//     } else if (coinFlip() === 0) {
-//       enemy.xcoordinate -= 1;
-//     // Right
-//     } else {
-//       enemy.xcoordinate += 1;
-//     }
-//   // Vertical Move
-//   } else {
-//     // Border Checks
-//     if (enemy.ycoordinate === 0) {
-//       enemy.ycoordinate += 1;
-//     } else if (enemy.ycoordinate === 5) {
-//       enemy.ycoordinate -= 1;
-//     // Up
-//     } else if (coinFlip() === 0) {
-//       enemy.ycoordinate += 1;
-//     // Down
-//     } else {
-//       enemy.ycoordinate -= 1;
-//     }
-//   }
-// }
 
 function moveNPCHorizontal(enemy) {
   if (enemy.direction === "right") {
