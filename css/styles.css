@@ -2,8 +2,12 @@
   margin: 20px auto;
 }
 
-td {
+table {
   border: 1px solid #000;
+}
+
+td {
+  background-image: url(../img/tile1.jpg);
   height: 100px;
   width: 100px;
   text-align: center;

@@ -110,16 +110,16 @@ function condition(player, toilet, enemy, turnTimer) {
 function redraw(objectArray){
   $("td").text("");
   objectArray.forEach(function(element){
-    $(".y" + element.ycoordinate + " .x" + element.xcoordinate).text(element.symbol);
+    $(".y" + element.ycoordinate + " .x" + element.xcoordinate).html("<img src=\"img/" + element.symbol + "\">");
   });
 }
 
 $(document).ready(function(){
   var turnTimer = 20;
   var objectArray = [];
-  var enemy = new GameObject("X", (Math.ceil(Math.random() * 4)), (Math.ceil(Math.random() * 4)));
-  var player = new GameObject("O", 0, 0);
-  var toilet = new GameObject("T", 5, 5);
+  var enemy = new GameObject("poop.png", (Math.ceil(Math.random() * 4)), (Math.ceil(Math.random() * 4)));
+  var player = new GameObject("player.png", 0, 0);
+  var toilet = new GameObject("toilet.png", 5, 5);
   var enemyType = "horizontal";
   objectArray.push(toilet);
   objectArray.push(player);
@@ -162,5 +162,9 @@ $(document).ready(function(){
     movePattern(enemy, enemyType);
     redraw(objectArray);
     turnTimer = condition(player, toilet, enemy, turnTimer);
+  });
+
+  $("#restart").click(function() {
+    location.reload();
   });
 });
