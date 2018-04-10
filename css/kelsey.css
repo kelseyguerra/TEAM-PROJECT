@@ -1,0 +1,81 @@
+body {
+  background-color: black;
+  font-family: 'Press Start 2P', cursive;
+}
+table {
+  border: 1px solid #000;
+}
+
+td {
+  background-image: url(../kelseyimg/ocean.png);
+  border: solid 1px black;
+  border-radius: 15px;
+  height: 110px;
+  width: 110px;
+  text-align: center;
+}
+
+#meter {
+  overflow: auto;
+  width: 600px;
+  margin: 0 auto 15px;
+}
+
+#meter h3 {
+  color: white;
+  margin: 6px 10px;
+}
+h3 {
+  font-size: 50px;
+
+}
+
+.barrier {
+  background-color: black;
+  background-image: url(../kelseyimg/sand2.png);
+}
+
+.wall-left {
+  border-left: 5px solid black;
+}
+
+.wall-right {
+  border-right: 5px solid black;
+}
+
+.wall-up {
+  border-top: 5px solid black;
+}
+
+.wall-down {
+  border-bottom: 5px solid black;
+}
+
+.meter-bar {
+  float: left;
+  background-color: white;
+  height: 30px;
+  width: 5px;
+  margin: 5px;
+}
+
+.center-div {
+  margin: 20px auto;
+}
+
+.unclickable {
+  pointer-events: none;
+}
+
+.refresh {
+  display: none;
+}
+img {
+  max-width: 100px;
+}
+h4,h1 {
+  text-align: center;
+  font-size: 50px;
+  color: white;
+
+}

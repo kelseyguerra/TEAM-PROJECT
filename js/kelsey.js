@@ -83,7 +83,7 @@ function moveNpcHunter(enemy, hunted){
 
 function moveNPCHorizontal(enemy) {
   if (enemy.direction === "right") {
-    if (enemy.xCoordinate < 5 && notAWall(enemy, "right") && notABarrier(enemy, "right")) {
+    if (enemy.xCoordinate < 9 && notAWall(enemy, "right") && notABarrier(enemy, "right")) {
       enemy.xCoordinate += 1;
     } else {
       enemy.xCoordinate -= 1;
@@ -101,7 +101,7 @@ function moveNPCHorizontal(enemy) {
 
 function moveNPCVertical(enemy) {
   if (enemy.direction === "down") {
-    if (enemy.yCoordinate < 5 && notAWall(enemy, "down") && notABarrier(enemy, "down")) {
+    if (enemy.yCoordinate < 9 && notAWall(enemy, "down") && notABarrier(enemy, "down")) {
       enemy.yCoordinate += 1;
     } else {
       enemy.yCoordinate -= 1;
@@ -181,19 +181,19 @@ function turnCountDown(turnTimer) {
 function condition(player, toilet, enemies, turnTimer) {
   var returnValue = "go";
   if (player.xCoordinate === toilet.xCoordinate && player.yCoordinate === toilet.yCoordinate) {
-    $("#output").text("You win, now you get to poop.");
+    $("#output").text("Yay! You saved Sir OctoPrince!");
     $(".navigation").hide();
     $(".refresh").show();
     returnValue = "stop";
   } else if (turnTimer === 0){
-    $("#output").text("You ran out of time and had an accident.");
+    $("#output").text("You ran out of time, try again.");
     $(".navigation").hide();
     $(".refresh").show();
     returnValue = "stop";
   }
   enemies.forEach(function(enemy){
     if (player.xCoordinate === enemy.xCoordinate && player.yCoordinate === enemy.yCoordinate) {
-      $("#output").text("You lose!");
+      $("#output").text("Oh no! Princess Blobby failed. Sir OctoPrince is lost forever.");
       $(".navigation").hide();
       $(".refresh").show();
       returnValue = "stop";
@@ -205,7 +205,7 @@ function condition(player, toilet, enemies, turnTimer) {
 function redraw(objectArray){
   $("td").text("");
   objectArray.forEach(function(element){
-    $(".y" + element.yCoordinate + " .x" + element.xCoordinate).html("<img src=\"img/" + element.symbol + "\">");
+    $(".y" + element.yCoordinate + " .x" + element.xCoordinate).html("<img src=" + element.symbol + ">");
   });
 }
 
@@ -216,21 +216,29 @@ function enduranceMeter(counter) {
 }
 
 $(document).ready(function(){
-  var turnTimer = 20;
+  var turnTimer = 30;
   var objectArray = [];
   var enemies= [];
-  var enemy1 = new GameObject("ghost.gif", (Math.ceil(Math.random() * 4)), (Math.ceil(Math.random() * 4)));
-  var enemy2 = new GameObject("ghost.gif", (Math.ceil(Math.random() * 4)), (Math.ceil(Math.random() * 4)));
-  var player = new GameObject("player.png", 0, 0);
-  var toilet = new GameObject("toilet.png", 5, 5);
+  var enemy1 = new GameObject("kelseyimg/glob.gif", (Math.ceil(Math.random() * 7)+1), (Math.ceil(Math.random() * 7)+1));
+  var enemy2 = new GameObject("kelseyimg/pus.gif", (Math.ceil(Math.random() * 7)+1), (Math.ceil(Math.random() * 7)+1));
+  var enemy3 = new GameObject("kelseyimg/pus.gif", (Math.ceil(Math.random() * 3)+1), (Math.ceil(Math.random() * 3)+1));
+  var enemy4 = new GameObject("kelseyimg/pus.gif", (Math.ceil(Math.random() * 7)+1), (Math.ceil(Math.random() * 7)+1));
+  var player = new GameObject("kelseyimg/blob.gif", 0, 0);
+  var toilet = new GameObject("kelseyimg/octoprincess.gif", 9, 9);
   var enemyType1 = "vertical";
   var enemyType2 = "hunter";
+  var enemyType3 = "hunter";
+  var enemyType4 = "hunter";
   objectArray.push(toilet);
   objectArray.push(player);
   objectArray.push(enemy1);
   enemies.push(enemy1);
   objectArray.push(enemy2);
+  objectArray.push(enemy3);
+  objectArray.push(enemy4);
   enemies.push(enemy2);
+  enemies.push(enemy3);
+  enemies.push(enemy4);
 
   enduranceMeter(turnTimer);
 
@@ -245,6 +253,8 @@ $(document).ready(function(){
     if (firstCheck === "go") {
       movePattern(enemy1, enemyType1, toilet, turnTimer);
       movePattern(enemy2, enemyType2, player, turnTimer);
+      movePattern(enemy3, enemyType3, player, turnTimer);
+      movePattern(enemy4, enemyType4, player, turnTimer);
       redraw(objectArray);
     }
     turnTimer = turnCountDown(turnTimer);
@@ -252,7 +262,7 @@ $(document).ready(function(){
   });
   $("button#move-right").click(function(event) {
     event.preventDefault();
-    if (player.xCoordinate < 5 && notAWall(player, "right") && notABarrier(player, "right")) {
+    if (player.xCoordinate < 9 && notAWall(player, "right") && notABarrier(player, "right")) {
       player.xCoordinate = player.xCoordinate + 1;
     }
     redraw(objectArray);
@@ -260,6 +270,8 @@ $(document).ready(function(){
     if (firstCheck === "go") {
       movePattern(enemy1, enemyType1, toilet, turnTimer);
       movePattern(enemy2, enemyType2, player, turnTimer);
+      movePattern(enemy3, enemyType3, player, turnTimer);
+      movePattern(enemy4, enemyType4, player, turnTimer);
       redraw(objectArray);
     }
     turnTimer = turnCountDown(turnTimer);
@@ -277,6 +289,8 @@ $(document).ready(function(){
     if (firstCheck === "go") {
       movePattern(enemy1, enemyType1, toilet, turnTimer);
       movePattern(enemy2, enemyType2, player, turnTimer);
+      movePattern(enemy3, enemyType3, player, turnTimer);
+      movePattern(enemy4, enemyType4, player, turnTimer);
       redraw(objectArray);
     }
     turnTimer = turnCountDown(turnTimer);
@@ -284,7 +298,7 @@ $(document).ready(function(){
   });
   $("button#move-down").click(function(event) {
     event.preventDefault();
-    if (player.yCoordinate < 5 && notAWall(player, "down") && notABarrier(player, "down")) {
+    if (player.yCoordinate < 9 && notAWall(player, "down") && notABarrier(player, "down")) {
       player.yCoordinate = player.yCoordinate + 1;
     }
     redraw(objectArray);
@@ -292,6 +306,8 @@ $(document).ready(function(){
     if (firstCheck === "go") {
       movePattern(enemy1, enemyType1, toilet, turnTimer);
       movePattern(enemy2, enemyType2, player, turnTimer);
+      movePattern(enemy3, enemyType3, player, turnTimer);
+      movePattern(enemy4, enemyType4, player, turnTimer);
       redraw(objectArray);
     }
     turnTimer = turnCountDown(turnTimer);
