@@ -60,3 +60,8 @@ td {
 .refresh {
   display: none;
 }
+
+gif {
+  height: 25px;
+  width: 25px;
+}

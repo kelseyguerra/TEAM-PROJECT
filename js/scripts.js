@@ -1,7 +1,7 @@
-function GameObject (symbol, xcoordinate, ycoordinate, direction) {
+function GameObject (symbol, xCoordinate, yCoordinate, direction) {
   this.symbol = symbol;
-  this.xcoordinate = xcoordinate;
-  this.ycoordinate = ycoordinate;
+  this.xCoordinate = xCoordinate;
+  this.yCoordinate = yCoordinate;
   this.direction;
 }
 
@@ -86,14 +86,14 @@ function moveNPCHorizontal(enemy) {
     if (enemy.xcoordinate < 5 && notAWall(enemy, "right") && notABarrier(enemy, "right")) {
       enemy.xcoordinate += 1;
     } else {
-      enemy.xcoordinate -= 1;
+      enemy.xCoordinate -= 1;
       enemy.direction = "left";
     }
   } else {
     if (enemy.xcoordinate > 0 && notAWall(enemy, "left") && notABarrier(enemy, "left")) {
       enemy.xcoordinate -= 1;
     } else {
-      enemy.xcoordinate += 1;
+      enemy.xCoordinate += 1;
       enemy.direction = "right";
     }
   }
@@ -104,14 +104,14 @@ function moveNPCVertical(enemy) {
     if (enemy.ycoordinate < 5 && notAWall(enemy, "down") && notABarrier(enemy, "down")) {
       enemy.ycoordinate += 1;
     } else {
-      enemy.ycoordinate -= 1;
+      enemy.yCoordinate -= 1;
       enemy.direction = "up";
     }
   } else {
     if (enemy.ycoordinate > 0 && notAWall(enemy, "up") && notABarrier(enemy, "up")) {
       enemy.ycoordinate -= 1;
     } else {
-      enemy.ycoordinate += 1;
+      enemy.yCoordinate += 1;
       enemy.direction = "down";
     }
   }
@@ -175,34 +175,39 @@ function turnCountDown(turnTimer) {
   turnTimer --;
   $(".meter-bar").last().remove();
   $("#turnOutput").text(turnTimer);
+  $(".meter-bar").last().remove();
   return turnTimer;
 }
 
 // UI Logic
-function condition(player, toilet, enemy, turnTimer) {
-  if (player.xcoordinate === toilet.xcoordinate && player.ycoordinate === toilet.ycoordinate) {
+function condition(player, toilet, enemies, turnTimer) {
+  var returnValue = "go";
+  if (player.xCoordinate === toilet.xCoordinate && player.yCoordinate === toilet.yCoordinate) {
     $("#output").text("You win, now you get to poop.");
     $(".navigation").hide();
     $(".refresh").show();
-    return "stop";
-  } else if (player.xcoordinate === enemy.xcoordinate && player.ycoordinate === enemy.ycoordinate) {
-    $("#output").text("You lose!");
-    $(".navigation").hide();
-    $(".refresh").show();
-    return "stop";
+    returnValue = "stop";
   } else if (turnTimer === 0){
     $("#output").text("You ran out of time and had an accident.");
     $(".navigation").hide();
     $(".refresh").show();
-    return "stop";
+    returnValue = "stop";
   }
-  return "go";
+  enemies.forEach(function(enemy){
+    if (player.xCoordinate === enemy.xCoordinate && player.yCoordinate === enemy.yCoordinate) {
+      $("#output").text("You lose!");
+      $(".navigation").hide();
+      $(".refresh").show();
+      returnValue = "stop";
+    }
+  });
+  return returnValue;
 }
 
 function redraw(objectArray){
   $("td").text("");
   objectArray.forEach(function(element){
-    $(".y" + element.ycoordinate + " .x" + element.xcoordinate).html("<img src=\"img/" + element.symbol + "\">");
+    $(".y" + element.yCoordinate + " .x" + element.xCoordinate).html("<img src=\"img/" + element.symbol + "\">");
   });
 }
 
@@ -215,14 +220,19 @@ function enduranceMeter(counter) {
 $(document).ready(function(){
   var turnTimer = 20;
   var objectArray = [];
-  var enemy = new GameObject("poop.png", (Math.ceil(Math.random() * 4)), (Math.ceil(Math.random() * 4)));
+  var enemies= [];
+  var enemy1 = new GameObject("poop.png", (Math.ceil(Math.random() * 4)), (Math.ceil(Math.random() * 4)));
+  var enemy2 = new GameObject("hunter.gif", (Math.ceil(Math.random() * 4)), (Math.ceil(Math.random() * 4)));
   var player = new GameObject("player.png", 0, 0);
   var toilet = new GameObject("toilet.png", 5, 5);
-  var enemyType = "hunter";
+  var enemyType1 = "vertical";
+  var enemyType2 = "hunter";
   objectArray.push(toilet);
   objectArray.push(player);
-  objectArray.push(enemy);
-
+  objectArray.push(enemy1);
+  enemies.push(enemy1);
+  objectArray.push(enemy2);
+  enemies.push(enemy2);
 
   enduranceMeter(turnTimer);
 
@@ -233,13 +243,14 @@ $(document).ready(function(){
       player.xcoordinate = player.xcoordinate - 1;
     }
     redraw(objectArray);
-    var firstCheck = condition(player, toilet, enemy, turnTimer);
+    var firstCheck = condition(player, toilet, enemies, turnTimer);
     if (firstCheck === "go") {
-      movePattern(enemy, enemyType, player, turnTimer);
+      movePattern(enemy1, enemyType1, toilet, turnTimer);
+      movePattern(enemy2, enemyType2, player, turnTimer);
       redraw(objectArray);
     }
     turnTimer = turnCountDown(turnTimer);
-    condition(player, toilet, enemy, turnTimer);
+    condition(player, toilet, enemies, turnTimer);
   });
   $("button#move-right").click(function(event) {
     event.preventDefault();
@@ -247,13 +258,14 @@ $(document).ready(function(){
       player.xcoordinate = player.xcoordinate + 1;
     }
     redraw(objectArray);
-    var firstCheck = condition(player, toilet, enemy, turnTimer);
+    var firstCheck = condition(player, toilet, enemies, turnTimer);
     if (firstCheck === "go") {
-      movePattern(enemy, enemyType, player, turnTimer);
+      movePattern(enemy1, enemyType1, toilet, turnTimer);
+      movePattern(enemy2, enemyType2, player, turnTimer);
       redraw(objectArray);
     }
     turnTimer = turnCountDown(turnTimer);
-    condition(player, toilet, enemy, turnTimer);
+    condition(player, toilet, enemies, turnTimer);
   });
   $("button#move-up").click(function(event) {
     event.preventDefault();
@@ -261,13 +273,14 @@ $(document).ready(function(){
       player.ycoordinate = player.ycoordinate - 1;
     }
     redraw(objectArray);
-    var firstCheck = condition(player, toilet, enemy, turnTimer);
+    var firstCheck = condition(player, toilet, enemies, turnTimer);
     if (firstCheck === "go") {
-      movePattern(enemy, enemyType, player, turnTimer);
+      movePattern(enemy1, enemyType1, toilet, turnTimer);
+      movePattern(enemy2, enemyType2, player, turnTimer);
       redraw(objectArray);
     }
     turnTimer = turnCountDown(turnTimer);
-    condition(player, toilet, enemy, turnTimer);
+    condition(player, toilet, enemies, turnTimer);
   });
   $("button#move-down").click(function(event) {
     event.preventDefault();
@@ -275,13 +288,14 @@ $(document).ready(function(){
       player.ycoordinate = player.ycoordinate + 1;
     }
     redraw(objectArray);
-    var firstCheck = condition(player, toilet, enemy, turnTimer);
+    var firstCheck = condition(player, toilet, enemies, turnTimer);
     if (firstCheck === "go") {
-      movePattern(enemy, enemyType, player, turnTimer);
+      movePattern(enemy1, enemyType1, toilet, turnTimer);
+      movePattern(enemy2, enemyType2, player, turnTimer);
       redraw(objectArray);
     }
     turnTimer = turnCountDown(turnTimer);
-    condition(player, toilet, enemy, turnTimer);
+    condition(player, toilet, enemies, turnTimer);
   });
 
   $("#restart").click(function() {
