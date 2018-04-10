@@ -1,7 +1,7 @@
-function GameObject (symbol, xcoordinate, ycoordinate, direction) {
+function GameObject (symbol, xCoordinate, yCoordinate, direction) {
   this.symbol = symbol;
-  this.xcoordinate = xcoordinate;
-  this.ycoordinate = ycoordinate;
+  this.xCoordinate = xCoordinate;
+  this.yCoordinate = yCoordinate;
   this.direction;
 }
 
@@ -24,25 +24,25 @@ function movePattern (enemy, type, hunted, counter) {
 }
 
 function moveNpcHunter(enemy, hunted){
-  var xDistance = hunted.xcoordinate - enemy.xcoordinate;
-  var yDistance = hunted.ycoordinate - enemy.ycoordinate;
+  var xDistance = hunted.xCoordinate - enemy.xCoordinate;
+  var yDistance = hunted.yCoordinate - enemy.yCoordinate;
   if(xDistance > yDistance){
     if(xDistance > 0){
-      enemy.xcoordinate += 1;
+      enemy.xCoordinate += 1;
     } else{
-      enemy.xcoordinate -= 1;
+      enemy.xCoordinate -= 1;
     }
   } else if (yDistance > xDistance){
     if(yDistance > 0){
-      enemy.ycoordinate += 1;
+      enemy.yCoordinate += 1;
     } else{
-      enemy.ycoordinate -= 1;
+      enemy.yCoordinate -= 1;
     }
   } else{
     if(xDistance > 0){
-      enemy.xcoordinate += 1;
+      enemy.xCoordinate += 1;
     } else{
-      enemy.xcoordinate -= 1;
+      enemy.xCoordinate -= 1;
     }
   }
 }
@@ -51,47 +51,47 @@ function moveNpcRandom(enemy) {
   // Horizontal Move
   if (coinFlip() === 0) {
     // Border Checks
-    if (enemy.xcoordinate === 0) {
-      enemy.xcoordinate += 1;
-    } else if (enemy.xcoordinate === 5) {
-      enemy.xcoordinate -= 1;
+    if (enemy.xCoordinate === 0) {
+      enemy.xCoordinate += 1;
+    } else if (enemy.xCoordinate === 5) {
+      enemy.xCoordinate -= 1;
     // Left
     } else if (coinFlip() === 0) {
-      enemy.xcoordinate -= 1;
+      enemy.xCoordinate -= 1;
     // Right
     } else {
-      enemy.xcoordinate += 1;
+      enemy.xCoordinate += 1;
     }
   // Vertical Move
   } else {
     // Border Checks
-    if (enemy.ycoordinate === 0) {
-      enemy.ycoordinate += 1;
-    } else if (enemy.ycoordinate === 5) {
-      enemy.ycoordinate -= 1;
+    if (enemy.yCoordinate === 0) {
+      enemy.yCoordinate += 1;
+    } else if (enemy.yCoordinate === 5) {
+      enemy.yCoordinate -= 1;
     // Up
     } else if (coinFlip() === 0) {
-      enemy.ycoordinate += 1;
+      enemy.yCoordinate += 1;
     // Down
     } else {
-      enemy.ycoordinate -= 1;
+      enemy.yCoordinate -= 1;
     }
   }
 }
 
 function moveNPCHorizontal(enemy) {
   if (enemy.direction === "right") {
-    if (enemy.xcoordinate < 5) {
-      enemy.xcoordinate += 1;
+    if (enemy.xCoordinate < 5) {
+      enemy.xCoordinate += 1;
     } else {
-      enemy.xcoordinate -= 1;
+      enemy.xCoordinate -= 1;
       enemy.direction = "left";
     }
   } else {
-    if (enemy.xcoordinate > 0) {
-      enemy.xcoordinate -= 1;
+    if (enemy.xCoordinate > 0) {
+      enemy.xCoordinate -= 1;
     } else {
-      enemy.xcoordinate += 1;
+      enemy.xCoordinate += 1;
       enemy.direction = "right";
     }
   }
@@ -99,17 +99,17 @@ function moveNPCHorizontal(enemy) {
 
 function moveNPCVertical(enemy) {
   if (enemy.direction === "down") {
-    if (enemy.ycoordinate < 5) {
-      enemy.ycoordinate += 1;
+    if (enemy.yCoordinate < 5) {
+      enemy.yCoordinate += 1;
     } else {
-      enemy.ycoordinate -= 1;
+      enemy.yCoordinate -= 1;
       enemy.direction = "up";
     }
   } else {
-    if (enemy.ycoordinate > 0) {
-      enemy.ycoordinate -= 1;
+    if (enemy.yCoordinate > 0) {
+      enemy.yCoordinate -= 1;
     } else {
-      enemy.ycoordinate += 1;
+      enemy.yCoordinate += 1;
       enemy.direction = "down";
     }
   }
@@ -125,7 +125,7 @@ function turnCountDown(turnTimer) {
 // UI Logic
 function condition(player, toilet, enemies, turnTimer) {
   var returnValue = "go";
-  if (player.xcoordinate === toilet.xcoordinate && player.ycoordinate === toilet.ycoordinate) {
+  if (player.xCoordinate === toilet.xCoordinate && player.yCoordinate === toilet.yCoordinate) {
     $("#output").text("You win, now you get to poop.");
     $(".navigation").hide();
     $(".refresh").show();
@@ -137,7 +137,7 @@ function condition(player, toilet, enemies, turnTimer) {
     returnValue = "stop";
   }
   enemies.forEach(function(enemy){
-    if (player.xcoordinate === enemy.xcoordinate && player.ycoordinate === enemy.ycoordinate) {
+    if (player.xCoordinate === enemy.xCoordinate && player.yCoordinate === enemy.yCoordinate) {
       $("#output").text("You lose!");
       $(".navigation").hide();
       $(".refresh").show();
@@ -150,7 +150,7 @@ function condition(player, toilet, enemies, turnTimer) {
 function redraw(objectArray){
   $("td").text("");
   objectArray.forEach(function(element){
-    $(".y" + element.ycoordinate + " .x" + element.xcoordinate).html("<img src=\"img/" + element.symbol + "\">");
+    $(".y" + element.yCoordinate + " .x" + element.xCoordinate).html("<img src=\"img/" + element.symbol + "\">");
   });
 }
 
@@ -183,8 +183,8 @@ $(document).ready(function(){
   // $("#turnOutput").text(turnTimer);
   $("button#move-left").click(function(event) {
     event.preventDefault();
-    if (player.xcoordinate > 0) {
-      player.xcoordinate = player.xcoordinate - 1;
+    if (player.xCoordinate > 0) {
+      player.xCoordinate = player.xCoordinate - 1;
     }
     redraw(objectArray);
     var firstCheck = condition(player, toilet, enemies, turnTimer);
@@ -198,8 +198,8 @@ $(document).ready(function(){
   });
   $("button#move-right").click(function(event) {
     event.preventDefault();
-    if (player.xcoordinate < 5) {
-      player.xcoordinate = player.xcoordinate + 1;
+    if (player.xCoordinate < 5) {
+      player.xCoordinate = player.xCoordinate + 1;
     }
     redraw(objectArray);
     var firstCheck = condition(player, toilet, enemies, turnTimer);
@@ -213,8 +213,8 @@ $(document).ready(function(){
   });
   $("button#move-up").click(function(event) {
     event.preventDefault();
-    if (player.ycoordinate > 0) {
-      player.ycoordinate = player.ycoordinate - 1;
+    if (player.yCoordinate > 0) {
+      player.yCoordinate = player.yCoordinate - 1;
     }
     redraw(objectArray);
     var firstCheck = condition(player, toilet, enemies, turnTimer);
@@ -228,8 +228,8 @@ $(document).ready(function(){
   });
   $("button#move-down").click(function(event) {
     event.preventDefault();
-    if (player.ycoordinate < 5) {
-      player.ycoordinate = player.ycoordinate + 1;
+    if (player.yCoordinate < 5) {
+      player.yCoordinate = player.yCoordinate + 1;
     }
     redraw(objectArray);
     var firstCheck = condition(player, toilet, enemies, turnTimer);
