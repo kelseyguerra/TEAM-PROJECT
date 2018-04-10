@@ -26,23 +26,60 @@ function movePattern (enemy, type, hunted, counter) {
 function moveNpcHunter(enemy, hunted){
   var xDistance = hunted.xcoordinate - enemy.xcoordinate;
   var yDistance = hunted.ycoordinate - enemy.ycoordinate;
-  if(xDistance > yDistance){
-    if(xDistance > 0){
-      enemy.xcoordinate += 1;
-    } else{
-      enemy.xcoordinate -= 1;
+  if (Math.abs(xDistance) > Math.abs(yDistance)){
+    if (xDistance > 0) {
+      if (notABarrier(enemy, "right")){
+        enemy.xcoordinate += 1;
+      } else if (yDistance >= 0 && notABarrier(enemy, "down")) {
+        enemy.ycoordinate += 1;
+      } else if (yDistance >= 0 && notABarrier(enemy, "up")) {
+        enemy.ycoordinate -= 1;
+      }
+    } else if (xDistance < 0) {
+      if (notABarrier(enemy, "left")) {
+        enemy.xcoordinate -= 1;
+      } else if (yDistance >= 0 && notABarrier(enemy, "down")) {
+        enemy.ycoordinate += 1;
+      } else if (yDistance >= 0 && notABarrier(enemy, "up")) {
+        enemy.ycoordinate -= 1;
+      }
     }
-  } else if (yDistance > xDistance){
-    if(yDistance > 0){
-      enemy.ycoordinate += 1;
-    } else{
-      enemy.ycoordinate -= 1;
+  } else if (Math.abs(yDistance) > Math.abs(xDistance)) {
+    console.log("Got Here");
+    if (yDistance > 0) {
+      if (notABarrier(enemy, "down")) {
+        enemy.ycoordinate += 1;
+      } else if (xDistance >= 0 && notABarrier(enemy, "right")) {
+        enemy.xcoordinate += 1;
+      } else if (xDistance <= 0 && notABarrier(enemy, "left")) {
+        enemy.xcoordinate -= 1;
+      }
+    } else if (yDistance < 0) {
+      if (notABarrier(enemy, "up")) {
+        enemy.ycoordinate -= 1;
+      } else if (xDistance >= 0 && notABarrier(enemy, "right")) {
+        enemy.xcoordinate += 1;
+      } else if (xDistance <= 0 && notABarrier(enemy, "left")) {
+        enemy.xcoordinate -= 1;
+      }
     }
-  } else{
-    if(xDistance > 0){
-      enemy.xcoordinate += 1;
-    } else{
-      enemy.xcoordinate -= 1;
+  } else {
+    if (xDistance > 0) {
+      if (notABarrier(enemy, "right")){
+        enemy.xcoordinate += 1;
+      } else if (yDistance >= 0 && notABarrier(enemy, "down")) {
+        enemy.ycoordinate += 1;
+      } else if (Math.abs(yDistance) >= 0 && notABarrier(enemy, "up")) {
+        enemy.ycoordinate -= 1;
+      }
+    } else if (xDistance < 0) {
+      if (notABarrier(enemy, "left")) {
+        enemy.xcoordinate -= 1;
+      } else if (yDistance >= 0 && notABarrier(enemy, "down")) {
+        enemy.ycoordinate += 1;
+      } else if (Math.abs(yDistance) >= 0 && notABarrier(enemy, "up")) {
+        enemy.ycoordinate -= 1;
+      }
     }
   }
 }
@@ -217,7 +254,7 @@ $(document).ready(function(){
   var enemy = new GameObject("poop.png", (Math.ceil(Math.random() * 4)), (Math.ceil(Math.random() * 4)));
   var player = new GameObject("player.png", 0, 0);
   var toilet = new GameObject("toilet.png", 5, 5);
-  var enemyType = "vertical";
+  var enemyType = "hunter";
   objectArray.push(toilet);
   objectArray.push(player);
   objectArray.push(enemy);
@@ -234,7 +271,7 @@ $(document).ready(function(){
     redraw(objectArray);
     var firstCheck = condition(player, toilet, enemy, turnTimer);
     if (firstCheck === "go") {
-      movePattern(enemy, enemyType, toilet, turnTimer);
+      movePattern(enemy, enemyType, player, turnTimer);
       redraw(objectArray);
     }
     turnTimer = turnCountDown(turnTimer);
@@ -248,7 +285,7 @@ $(document).ready(function(){
     redraw(objectArray);
     var firstCheck = condition(player, toilet, enemy, turnTimer);
     if (firstCheck === "go") {
-      movePattern(enemy, enemyType, toilet, turnTimer);
+      movePattern(enemy, enemyType, player, turnTimer);
       redraw(objectArray);
     }
     turnTimer = turnCountDown(turnTimer);
@@ -262,7 +299,7 @@ $(document).ready(function(){
     redraw(objectArray);
     var firstCheck = condition(player, toilet, enemy, turnTimer);
     if (firstCheck === "go") {
-      movePattern(enemy, enemyType, toilet, turnTimer);
+      movePattern(enemy, enemyType, player, turnTimer);
       redraw(objectArray);
     }
     turnTimer = turnCountDown(turnTimer);
@@ -276,7 +313,7 @@ $(document).ready(function(){
     redraw(objectArray);
     var firstCheck = condition(player, toilet, enemy, turnTimer);
     if (firstCheck === "go") {
-      movePattern(enemy, enemyType, toilet, turnTimer);
+      movePattern(enemy, enemyType, player, turnTimer);
       redraw(objectArray);
     }
     turnTimer = turnCountDown(turnTimer);
