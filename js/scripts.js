@@ -10,9 +10,7 @@ function coinFlip() {
 }
 
 function movePattern (enemy, type, hunted, counter) {
-  if (type === "random") {
-    moveNpcRandom(enemy);
-  } else if (type === "horizontal") {
+  if (type === "horizontal") {
     moveNPCHorizontal(enemy);
   }else if (type === "vertical") {
     moveNPCVertical(enemy);
@@ -24,72 +22,76 @@ function movePattern (enemy, type, hunted, counter) {
 }
 
 function moveNpcHunter(enemy, hunted){
-  var xDistance = hunted.xCoordinate - enemy.xCoordinate;
-  var yDistance = hunted.yCoordinate - enemy.yCoordinate;
-  if(xDistance > yDistance){
-    if(xDistance > 0){
-      enemy.xCoordinate += 1;
-    } else{
-      enemy.xCoordinate -= 1;
+  var xDistance = hunted.xcoordinate - enemy.xcoordinate;
+  var yDistance = hunted.ycoordinate - enemy.ycoordinate;
+  if (Math.abs(xDistance) > Math.abs(yDistance)){
+    if (xDistance > 0) {
+      if (notABarrier(enemy, "right") && notAWall(enemy, "right")){
+        enemy.xcoordinate += 1;
+      } else if (yDistance >= 0 && notABarrier(enemy, "down") && notAWall(enemy, "down")) {
+        enemy.ycoordinate += 1;
+      } else if (yDistance >= 0 && notABarrier(enemy, "up") && notAWall(enemy, "up")) {
+        enemy.ycoordinate -= 1;
+      }
+    } else if (xDistance < 0) {
+      if (notABarrier(enemy, "left") && notAWall(enemy, "left")) {
+        enemy.xcoordinate -= 1;
+      } else if (yDistance >= 0 && notABarrier(enemy, "down") && notAWall(enemy, "down")) {
+        enemy.ycoordinate += 1;
+      } else if (yDistance >= 0 && notABarrier(enemy, "up") && notAWall(enemy, "up")) {
+        enemy.ycoordinate -= 1;
+      }
     }
-  } else if (yDistance > xDistance){
-    if(yDistance > 0){
-      enemy.yCoordinate += 1;
-    } else{
-      enemy.yCoordinate -= 1;
+  } else if (Math.abs(yDistance) > Math.abs(xDistance)) {
+    if (yDistance > 0) {
+      if (notABarrier(enemy, "down") && notAWall(enemy, "down")) {
+        enemy.ycoordinate += 1;
+      } else if (xDistance >= 0 && notABarrier(enemy, "right") && notAWall(enemy, "right")) {
+        enemy.xcoordinate += 1;
+      } else if (xDistance <= 0 && notABarrier(enemy, "left") && notAWall(enemy, "left")) {
+        enemy.xcoordinate -= 1;
+      }
+    } else if (yDistance < 0) {
+      if (notABarrier(enemy, "up") && notAWall(enemy, "up")) {
+        enemy.ycoordinate -= 1;
+      } else if (xDistance >= 0 && notABarrier(enemy, "right") && notAWall(enemy, "right")) {
+        enemy.xcoordinate += 1;
+      } else if (xDistance <= 0 && notABarrier(enemy, "left") && notAWall(enemy, "left")) {
+        enemy.xcoordinate -= 1;
+      }
     }
-  } else{
-    if(xDistance > 0){
-      enemy.xCoordinate += 1;
-    } else{
-      enemy.xCoordinate -= 1;
-    }
-  }
-}
-
-function moveNpcRandom(enemy) {
-  // Horizontal Move
-  if (coinFlip() === 0) {
-    // Border Checks
-    if (enemy.xCoordinate === 0) {
-      enemy.xCoordinate += 1;
-    } else if (enemy.xCoordinate === 5) {
-      enemy.xCoordinate -= 1;
-    // Left
-    } else if (coinFlip() === 0) {
-      enemy.xCoordinate -= 1;
-    // Right
-    } else {
-      enemy.xCoordinate += 1;
-    }
-  // Vertical Move
   } else {
-    // Border Checks
-    if (enemy.yCoordinate === 0) {
-      enemy.yCoordinate += 1;
-    } else if (enemy.yCoordinate === 5) {
-      enemy.yCoordinate -= 1;
-    // Up
-    } else if (coinFlip() === 0) {
-      enemy.yCoordinate += 1;
-    // Down
-    } else {
-      enemy.yCoordinate -= 1;
+    if (xDistance > 0) {
+      if (notABarrier(enemy, "right") && notAWall(enemy, "right")){
+        enemy.xcoordinate += 1;
+      } else if (yDistance >= 0 && notABarrier(enemy, "down") && notAWall(enemy, "down")) {
+        enemy.ycoordinate += 1;
+      } else if (Math.abs(yDistance) >= 0 && notABarrier(enemy, "up") && notAWall(enemy, "up")) {
+        enemy.ycoordinate -= 1;
+      }
+    } else if (xDistance < 0) {
+      if (notABarrier(enemy, "left") && notAWall(enemy, "left")) {
+        enemy.xcoordinate -= 1;
+      } else if (yDistance >= 0 && notABarrier(enemy, "down") && notAWall(enemy, "down")) {
+        enemy.ycoordinate += 1;
+      } else if (Math.abs(yDistance) >= 0 && notABarrier(enemy, "up") && notAWall(enemy, "up")) {
+        enemy.ycoordinate -= 1;
+      }
     }
   }
 }
 
 function moveNPCHorizontal(enemy) {
   if (enemy.direction === "right") {
-    if (enemy.xCoordinate < 5) {
-      enemy.xCoordinate += 1;
+    if (enemy.xcoordinate < 5 && notAWall(enemy, "right") && notABarrier(enemy, "right")) {
+      enemy.xcoordinate += 1;
     } else {
       enemy.xCoordinate -= 1;
       enemy.direction = "left";
     }
   } else {
-    if (enemy.xCoordinate > 0) {
-      enemy.xCoordinate -= 1;
+    if (enemy.xcoordinate > 0 && notAWall(enemy, "left") && notABarrier(enemy, "left")) {
+      enemy.xcoordinate -= 1;
     } else {
       enemy.xCoordinate += 1;
       enemy.direction = "right";
@@ -99,15 +101,15 @@ function moveNPCHorizontal(enemy) {
 
 function moveNPCVertical(enemy) {
   if (enemy.direction === "down") {
-    if (enemy.yCoordinate < 5) {
-      enemy.yCoordinate += 1;
+    if (enemy.ycoordinate < 5 && notAWall(enemy, "down") && notABarrier(enemy, "down")) {
+      enemy.ycoordinate += 1;
     } else {
       enemy.yCoordinate -= 1;
       enemy.direction = "up";
     }
   } else {
-    if (enemy.yCoordinate > 0) {
-      enemy.yCoordinate -= 1;
+    if (enemy.ycoordinate > 0 && notAWall(enemy, "up") && notABarrier(enemy, "up")) {
+      enemy.ycoordinate -= 1;
     } else {
       enemy.yCoordinate += 1;
       enemy.direction = "down";
@@ -115,8 +117,63 @@ function moveNPCVertical(enemy) {
   }
 }
 
+// BLOCK BARRIER CHECK
+function notABarrier(object, direction) {
+  if (direction === "left") {
+    if ($(".y" + object.ycoordinate + " .x" + (object.xcoordinate - 1)).attr('class').includes("barrier")) {
+      return false;
+    }
+    return true;
+  } else if (direction === "right") {
+    if ($(".y" + object.ycoordinate + " .x" + (object.xcoordinate + 1)).attr('class').includes("barrier")) {
+      return false;
+    }
+    return true;
+  } else if (direction === "up") {
+    if ($(".y" + (object.ycoordinate - 1) + " .x" + object.xcoordinate).attr('class').includes("barrier")) {
+      return false;
+    }
+    return true;
+  } else if (direction === "down") {
+    if ($(".y" + (object.ycoordinate + 1) + " .x" + object.xcoordinate).attr('class').includes("barrier")) {
+      return false;
+    }
+    return true;
+  }
+}
+
+// BORDER WALL CHECK
+function notAWall(object, direction) {
+  if (direction === "left") {
+    if ($(".y" + object.ycoordinate + " .x" + object.xcoordinate).attr('class').includes("wall-left")) {
+      return false;
+    } else {
+      return true;
+    }
+  } else if (direction === "right") {
+    if ($(".y" + object.ycoordinate + " .x" + object.xcoordinate).attr('class').includes("wall-right")) {
+      return false;
+    } else {
+      return true;
+    }
+  } else if (direction === "up") {
+    if ($(".y" + object.ycoordinate + " .x" + object.xcoordinate).attr('class').includes("wall-up")) {
+      return false;
+    } else {
+      return true;
+    }
+  } else if (direction === "down") {
+    if ($(".y" + object.ycoordinate + " .x" + object.xcoordinate).attr('class').includes("wall-down")) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+}
+
 function turnCountDown(turnTimer) {
   turnTimer --;
+  $(".meter-bar").last().remove();
   $("#turnOutput").text(turnTimer);
   $(".meter-bar").last().remove();
   return turnTimer;
@@ -180,11 +237,10 @@ $(document).ready(function(){
   enduranceMeter(turnTimer);
 
   redraw(objectArray);
-  // $("#turnOutput").text(turnTimer);
   $("button#move-left").click(function(event) {
     event.preventDefault();
-    if (player.xCoordinate > 0) {
-      player.xCoordinate = player.xCoordinate - 1;
+    if (player.xcoordinate > 0 && notAWall(player, "left") && notABarrier(player, "left")) {
+      player.xcoordinate = player.xcoordinate - 1;
     }
     redraw(objectArray);
     var firstCheck = condition(player, toilet, enemies, turnTimer);
@@ -198,8 +254,8 @@ $(document).ready(function(){
   });
   $("button#move-right").click(function(event) {
     event.preventDefault();
-    if (player.xCoordinate < 5) {
-      player.xCoordinate = player.xCoordinate + 1;
+    if (player.xcoordinate < 5 && notAWall(player, "right") && notABarrier(player, "right")) {
+      player.xcoordinate = player.xcoordinate + 1;
     }
     redraw(objectArray);
     var firstCheck = condition(player, toilet, enemies, turnTimer);
@@ -213,8 +269,8 @@ $(document).ready(function(){
   });
   $("button#move-up").click(function(event) {
     event.preventDefault();
-    if (player.yCoordinate > 0) {
-      player.yCoordinate = player.yCoordinate - 1;
+    if (player.ycoordinate > 0 && notAWall(player, "up") && notABarrier(player, "up")) {
+      player.ycoordinate = player.ycoordinate - 1;
     }
     redraw(objectArray);
     var firstCheck = condition(player, toilet, enemies, turnTimer);
@@ -228,8 +284,8 @@ $(document).ready(function(){
   });
   $("button#move-down").click(function(event) {
     event.preventDefault();
-    if (player.yCoordinate < 5) {
-      player.yCoordinate = player.yCoordinate + 1;
+    if (player.ycoordinate < 5 && notAWall(player, "down") && notABarrier(player, "down")) {
+      player.ycoordinate = player.ycoordinate + 1;
     }
     redraw(objectArray);
     var firstCheck = condition(player, toilet, enemies, turnTimer);

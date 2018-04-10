@@ -5,8 +5,8 @@ table {
 td {
   /*background-image: url(../img/tile1.jpg);*/
   border: solid 1px black;
-  height: 100px;
-  width: 100px;
+  height: 110px;
+  width: 110px;
   text-align: center;
 }
 
@@ -19,6 +19,26 @@ td {
 #meter h3 {
   float: left;
   margin: 6px 10px;
+}
+
+.barrier {
+  background-color: black;
+}
+
+.wall-left {
+  border-left: 5px solid black;
+}
+
+.wall-right {
+  border-right: 5px solid black;
+}
+
+.wall-up {
+  border-top: 5px solid black;
+}
+
+.wall-down {
+  border-bottom: 5px solid black;
 }
 
 .meter-bar {
