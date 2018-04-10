@@ -21,6 +21,10 @@ td {
   margin: 6px 10px;
 }
 
+.wall {
+  background-color: black;
+}
+
 .meter-bar {
   float: left;
   background-color: green;

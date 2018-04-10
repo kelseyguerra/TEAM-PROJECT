@@ -115,8 +115,33 @@ function moveNPCVertical(enemy) {
   }
 }
 
+function notAWall(object, direction) {
+  if (direction === "left") {
+    if ($(".y" + object.ycoordinate + " .x" + (object.xcoordinate - 1)).attr('class').includes("wall")) {
+      return false;
+    }
+    return true;
+  } else if (direction === "right") {
+    if ($(".y" + object.ycoordinate + " .x" + (object.xcoordinate + 1)).attr('class').includes("wall")) {
+      return false;
+    }
+    return true;
+  } else if (direction === "up") {
+    if ($(".y" + (object.ycoordinate - 1) + " .x" + object.xcoordinate).attr('class').includes("wall")) {
+      return false;
+    }
+    return true;
+  } else if (direction === "down") {
+    if ($(".y" + (object.ycoordinate + 1) + " .x" + object.xcoordinate).attr('class').includes("wall")) {
+      return false;
+    }
+    return true;
+  }
+}
+
 function turnCountDown(turnTimer) {
   turnTimer --;
+  $(".meter-bar").last().remove();
   $("#turnOutput").text(turnTimer);
   return turnTimer;
 }
@@ -147,7 +172,6 @@ function redraw(objectArray){
   objectArray.forEach(function(element){
     $(".y" + element.ycoordinate + " .x" + element.xcoordinate).html("<img src=\"img/" + element.symbol + "\">");
   });
-  $(".meter-bar").last().remove();
 }
 
 function enduranceMeter(counter) {
@@ -171,10 +195,9 @@ $(document).ready(function(){
   enduranceMeter(turnTimer);
 
   redraw(objectArray);
-  // $("#turnOutput").text(turnTimer);
   $("button#move-left").click(function(event) {
     event.preventDefault();
-    if (player.xcoordinate > 0) {
+    if (player.xcoordinate > 0 && notAWall(player, "left")) {
       player.xcoordinate = player.xcoordinate - 1;
     }
     redraw(objectArray);
@@ -188,7 +211,7 @@ $(document).ready(function(){
   });
   $("button#move-right").click(function(event) {
     event.preventDefault();
-    if (player.xcoordinate < 5) {
+    if (player.xcoordinate < 5 && notAWall(player, "right")) {
       player.xcoordinate = player.xcoordinate + 1;
     }
     redraw(objectArray);
@@ -202,7 +225,7 @@ $(document).ready(function(){
   });
   $("button#move-up").click(function(event) {
     event.preventDefault();
-    if (player.ycoordinate > 0) {
+    if (player.ycoordinate > 0 && notAWall(player, "up")) {
       player.ycoordinate = player.ycoordinate - 1;
     }
     redraw(objectArray);
@@ -216,7 +239,7 @@ $(document).ready(function(){
   });
   $("button#move-down").click(function(event) {
     event.preventDefault();
-    if (player.ycoordinate < 5) {
+    if (player.ycoordinate < 5 && notAWall(player, "down")) {
       player.ycoordinate = player.ycoordinate + 1;
     }
     redraw(objectArray);
