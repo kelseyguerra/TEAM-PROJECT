@@ -118,7 +118,7 @@ function moveNPCVertical(enemy) {
 // UI Logic
 function condition(player, toilet, enemy, turnTimer) {
   turnTimer --;
-  $("#turnOutput").text(turnTimer);
+  // $("#turnOutput").text(turnTimer);
   if (player.xcoordinate === toilet.xcoordinate && player.ycoordinate === toilet.ycoordinate) {
     $("#output").text("You win, now you get to poop.");
     $(".navigation").hide();
@@ -140,27 +140,40 @@ function redraw(objectArray){
   objectArray.forEach(function(element){
     $(".y" + element.ycoordinate + " .x" + element.xcoordinate).html("<img src=\"img/" + element.symbol + "\">");
   });
+  $(".meter-bar").last().remove();
+}
+
+function enduranceMeter(counter) {
+  for (var i = 0; i < counter; i ++) {
+    $("#meter").append("<div class=\"meter-bar\"></div>")
+  }
 }
 
 $(document).ready(function(){
   var turnTimer = 20;
   var objectArray = [];
   var enemy = new GameObject("poop.png", (Math.ceil(Math.random() * 4)), (Math.ceil(Math.random() * 4)));
+  var enemy2 = new GameObject("poop.png", (Math.ceil(Math.random() * 4)), (Math.ceil(Math.random() * 4)));
   var player = new GameObject("player.png", 0, 0);
   var toilet = new GameObject("toilet.png", 5, 5);
-  var enemyType = "hunter";
+  var enemyType = "vertical";
+  var enemyType2 = "hunter";
   objectArray.push(toilet);
   objectArray.push(player);
   objectArray.push(enemy);
+  objectArray.push(enemy2);
+
+  enduranceMeter(turnTimer);
 
   redraw(objectArray);
-  $("#turnOutput").text(turnTimer);
+  // $("#turnOutput").text(turnTimer);
   $("button#move-left").click(function(event) {
     event.preventDefault();
     if (player.xcoordinate > 0) {
       player.xcoordinate = player.xcoordinate - 1;
     }
     movePattern(enemy, enemyType, toilet, turnTimer);
+    movePattern(enemy2, enemyType2, player, turnTimer);
     redraw(objectArray);
     turnTimer = condition(player, toilet, enemy, turnTimer);
   });
@@ -170,6 +183,7 @@ $(document).ready(function(){
       player.xcoordinate = player.xcoordinate + 1;
     }
     movePattern(enemy, enemyType, toilet, turnTimer);
+    movePattern(enemy2, enemyType2, player, turnTimer);
     redraw(objectArray);
     turnTimer = condition(player, toilet, enemy, turnTimer);
   });
@@ -179,6 +193,7 @@ $(document).ready(function(){
       player.ycoordinate = player.ycoordinate - 1;
     }
     movePattern(enemy, enemyType, toilet, turnTimer);
+    movePattern(enemy2, enemyType2, player, turnTimer);
     redraw(objectArray);
     turnTimer = condition(player, toilet, enemy, turnTimer);
   });
@@ -188,6 +203,7 @@ $(document).ready(function(){
       player.ycoordinate = player.ycoordinate + 1;
     }
     movePattern(enemy, enemyType, toilet, turnTimer);
+    movePattern(enemy2, enemyType2, player, turnTimer);
     redraw(objectArray);
     turnTimer = condition(player, toilet, enemy, turnTimer);
   });
