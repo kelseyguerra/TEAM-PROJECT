@@ -123,7 +123,7 @@ function condition(player, toilet, enemy, turnTimer) {
     $("#output").text("You win, now you get to poop.");
     $(".navigation").hide();
     $(".refresh").show();
-  } else if (player.xcoordinate === enemy.xcoordinate && player.ycoordinate === enemy.ycoordinate) {
+  } else if ((player.xcoordinate === enemy.xcoordinate && player.ycoordinate === enemy.ycoordinate) || (toilet.xcoordinate === enemy.xcoordinate && toilet.ycoordinate === enemy.ycoordinate)) {
     $("#output").text("You lose!");
     $(".navigation").hide();
     $(".refresh").show();
@@ -160,7 +160,7 @@ $(document).ready(function(){
     if (player.xcoordinate > 0) {
       player.xcoordinate = player.xcoordinate - 1;
     }
-    movePattern(enemy, enemyType, player, turnTimer);
+    movePattern(enemy, enemyType, toilet, turnTimer);
     redraw(objectArray);
     turnTimer = condition(player, toilet, enemy, turnTimer);
   });
@@ -169,7 +169,7 @@ $(document).ready(function(){
     if (player.xcoordinate < 5) {
       player.xcoordinate = player.xcoordinate + 1;
     }
-    movePattern(enemy, enemyType, player, turnTimer);
+    movePattern(enemy, enemyType, toilet, turnTimer);
     redraw(objectArray);
     turnTimer = condition(player, toilet, enemy, turnTimer);
   });
@@ -178,7 +178,7 @@ $(document).ready(function(){
     if (player.ycoordinate > 0) {
       player.ycoordinate = player.ycoordinate - 1;
     }
-    movePattern(enemy, enemyType, player, turnTimer);
+    movePattern(enemy, enemyType, toilet, turnTimer);
     redraw(objectArray);
     turnTimer = condition(player, toilet, enemy, turnTimer);
   });
@@ -187,7 +187,7 @@ $(document).ready(function(){
     if (player.ycoordinate < 5) {
       player.ycoordinate = player.ycoordinate + 1;
     }
-    movePattern(enemy, enemyType, player, turnTimer);
+    movePattern(enemy, enemyType, toilet, turnTimer);
     redraw(objectArray);
     turnTimer = condition(player, toilet, enemy, turnTimer);
   });
