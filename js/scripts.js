@@ -47,48 +47,49 @@ function moveNpcHunter(enemy, hunted){
   }
 }
 
-function moveNpcRandom(enemy) {
-  // Horizontal Move
-  if (coinFlip() === 0) {
-    // Border Checks
-    if (enemy.xcoordinate === 0) {
-      enemy.xcoordinate += 1;
-    } else if (enemy.xcoordinate === 5) {
-      enemy.xcoordinate -= 1;
-    // Left
-    } else if (coinFlip() === 0) {
-      enemy.xcoordinate -= 1;
-    // Right
-    } else {
-      enemy.xcoordinate += 1;
-    }
-  // Vertical Move
-  } else {
-    // Border Checks
-    if (enemy.ycoordinate === 0) {
-      enemy.ycoordinate += 1;
-    } else if (enemy.ycoordinate === 5) {
-      enemy.ycoordinate -= 1;
-    // Up
-    } else if (coinFlip() === 0) {
-      enemy.ycoordinate += 1;
-    // Down
-    } else {
-      enemy.ycoordinate -= 1;
-    }
-  }
-}
+// PHASE OUT RANDOM MOVEMENT ???
+// function moveNpcRandom(enemy) {
+//   // Horizontal Move
+//   if (coinFlip() === 0) {
+//     // Border Checks
+//     if (enemy.xcoordinate === 0) {
+//       enemy.xcoordinate += 1;
+//     } else if (enemy.xcoordinate === 5) {
+//       enemy.xcoordinate -= 1;
+//     // Left
+//     } else if (coinFlip() === 0) {
+//       enemy.xcoordinate -= 1;
+//     // Right
+//     } else {
+//       enemy.xcoordinate += 1;
+//     }
+//   // Vertical Move
+//   } else {
+//     // Border Checks
+//     if (enemy.ycoordinate === 0) {
+//       enemy.ycoordinate += 1;
+//     } else if (enemy.ycoordinate === 5) {
+//       enemy.ycoordinate -= 1;
+//     // Up
+//     } else if (coinFlip() === 0) {
+//       enemy.ycoordinate += 1;
+//     // Down
+//     } else {
+//       enemy.ycoordinate -= 1;
+//     }
+//   }
+// }
 
 function moveNPCHorizontal(enemy) {
   if (enemy.direction === "right") {
-    if (enemy.xcoordinate < 5) {
+    if (enemy.xcoordinate < 5 && notAWall(enemy, "right") && notABarrier(enemy, "right")) {
       enemy.xcoordinate += 1;
     } else {
       enemy.xcoordinate -= 1;
       enemy.direction = "left";
     }
   } else {
-    if (enemy.xcoordinate > 0) {
+    if (enemy.xcoordinate > 0 && notAWall(enemy, "left") && notABarrier(enemy, "left")) {
       enemy.xcoordinate -= 1;
     } else {
       enemy.xcoordinate += 1;
@@ -99,14 +100,14 @@ function moveNPCHorizontal(enemy) {
 
 function moveNPCVertical(enemy) {
   if (enemy.direction === "down") {
-    if (enemy.ycoordinate < 5) {
+    if (enemy.ycoordinate < 5 && notAWall(enemy, "down") && notABarrier(enemy, "down")) {
       enemy.ycoordinate += 1;
     } else {
       enemy.ycoordinate -= 1;
       enemy.direction = "up";
     }
   } else {
-    if (enemy.ycoordinate > 0) {
+    if (enemy.ycoordinate > 0 && notAWall(enemy, "up") && notABarrier(enemy, "up")) {
       enemy.ycoordinate -= 1;
     } else {
       enemy.ycoordinate += 1;
