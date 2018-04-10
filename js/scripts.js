@@ -115,24 +115,31 @@ function moveNPCVertical(enemy) {
   }
 }
 
+function turnCountDown(turnTimer) {
+  turnTimer --;
+  $("#turnOutput").text(turnTimer);
+  return turnTimer;
+}
+
 // UI Logic
 function condition(player, toilet, enemy, turnTimer) {
-  turnTimer --;
-  // $("#turnOutput").text(turnTimer);
   if (player.xcoordinate === toilet.xcoordinate && player.ycoordinate === toilet.ycoordinate) {
     $("#output").text("You win, now you get to poop.");
     $(".navigation").hide();
     $(".refresh").show();
-  } else if ((player.xcoordinate === enemy.xcoordinate && player.ycoordinate === enemy.ycoordinate) || (toilet.xcoordinate === enemy.xcoordinate && toilet.ycoordinate === enemy.ycoordinate)) {
+    return "stop";
+  } else if (player.xcoordinate === enemy.xcoordinate && player.ycoordinate === enemy.ycoordinate) {
     $("#output").text("You lose!");
     $(".navigation").hide();
     $(".refresh").show();
+    return "stop";
   } else if (turnTimer === 0){
     $("#output").text("You ran out of time and had an accident.");
     $(".navigation").hide();
     $(".refresh").show();
+    return "stop";
   }
-  return turnTimer;
+  return "go";
 }
 
 function redraw(objectArray){
@@ -153,15 +160,13 @@ $(document).ready(function(){
   var turnTimer = 20;
   var objectArray = [];
   var enemy = new GameObject("poop.png", (Math.ceil(Math.random() * 4)), (Math.ceil(Math.random() * 4)));
-  var enemy2 = new GameObject("poop.png", (Math.ceil(Math.random() * 4)), (Math.ceil(Math.random() * 4)));
   var player = new GameObject("player.png", 0, 0);
   var toilet = new GameObject("toilet.png", 5, 5);
   var enemyType = "vertical";
-  var enemyType2 = "hunter";
   objectArray.push(toilet);
   objectArray.push(player);
   objectArray.push(enemy);
-  objectArray.push(enemy2);
+
 
   enduranceMeter(turnTimer);
 
@@ -172,40 +177,56 @@ $(document).ready(function(){
     if (player.xcoordinate > 0) {
       player.xcoordinate = player.xcoordinate - 1;
     }
-    movePattern(enemy, enemyType, toilet, turnTimer);
-    movePattern(enemy2, enemyType2, player, turnTimer);
     redraw(objectArray);
-    turnTimer = condition(player, toilet, enemy, turnTimer);
+    var firstCheck = condition(player, toilet, enemy, turnTimer);
+    if (firstCheck === "go") {
+      movePattern(enemy, enemyType, toilet, turnTimer);
+      redraw(objectArray);
+    }
+    turnTimer = turnCountDown(turnTimer);
+    condition(player, toilet, enemy, turnTimer);
   });
   $("button#move-right").click(function(event) {
     event.preventDefault();
     if (player.xcoordinate < 5) {
       player.xcoordinate = player.xcoordinate + 1;
     }
-    movePattern(enemy, enemyType, toilet, turnTimer);
-    movePattern(enemy2, enemyType2, player, turnTimer);
     redraw(objectArray);
-    turnTimer = condition(player, toilet, enemy, turnTimer);
+    var firstCheck = condition(player, toilet, enemy, turnTimer);
+    if (firstCheck === "go") {
+      movePattern(enemy, enemyType, toilet, turnTimer);
+      redraw(objectArray);
+    }
+    turnTimer = turnCountDown(turnTimer);
+    condition(player, toilet, enemy, turnTimer);
   });
   $("button#move-up").click(function(event) {
     event.preventDefault();
     if (player.ycoordinate > 0) {
       player.ycoordinate = player.ycoordinate - 1;
     }
-    movePattern(enemy, enemyType, toilet, turnTimer);
-    movePattern(enemy2, enemyType2, player, turnTimer);
     redraw(objectArray);
-    turnTimer = condition(player, toilet, enemy, turnTimer);
+    var firstCheck = condition(player, toilet, enemy, turnTimer);
+    if (firstCheck === "go") {
+      movePattern(enemy, enemyType, toilet, turnTimer);
+      redraw(objectArray);
+    }
+    turnTimer = turnCountDown(turnTimer);
+    condition(player, toilet, enemy, turnTimer);
   });
   $("button#move-down").click(function(event) {
     event.preventDefault();
     if (player.ycoordinate < 5) {
       player.ycoordinate = player.ycoordinate + 1;
     }
-    movePattern(enemy, enemyType, toilet, turnTimer);
-    movePattern(enemy2, enemyType2, player, turnTimer);
     redraw(objectArray);
-    turnTimer = condition(player, toilet, enemy, turnTimer);
+    var firstCheck = condition(player, toilet, enemy, turnTimer);
+    if (firstCheck === "go") {
+      movePattern(enemy, enemyType, toilet, turnTimer);
+      redraw(objectArray);
+    }
+    turnTimer = turnCountDown(turnTimer);
+    condition(player, toilet, enemy, turnTimer);
   });
 
   $("#restart").click(function() {
